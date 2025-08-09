@@ -1,6 +1,6 @@
 const book = document.querySelector('.book');
+const pageToBurn = document.querySelector('.back-page'); // Seleciona a página que vai queimar
 const candlesContainer = document.querySelector('.candles-container');
-const poemContainer = document.querySelector('.poem-container');
 
 // Variáveis de controle
 const totalCandles = 18;
@@ -15,34 +15,27 @@ function turnPage() {
 for (let i = 0; i < totalCandles; i++) {
     const candle = document.createElement('div');
     candle.classList.add('candle');
-    // Adiciona um listener de clique a cada vela
     candle.addEventListener('click', () => {
-        // Acende a vela apenas se ela ainda não estiver acesa
         if (!candle.classList.contains('lit')) {
             candle.classList.add('lit');
             litCandlesCount++;
             
-            // Verifica se todas as velas foram acesas
             if (litCandlesCount === totalCandles) {
-                // Inicia a sequência final após um pequeno atraso
-                setTimeout(triggerFinalSequence, 1000);
+                setTimeout(triggerFinalSequence, 1000); // Espera 1s para começar a queimar
             }
         }
-    }, { once: true }); // O listener é removido após o primeiro clique
+    }, { once: true });
     candlesContainer.appendChild(candle);
 }
 
-// Função para disparar o efeito de fogo e mostrar o poema
+// FUNÇÃO ATUALIZADA PARA DISPARAR A QUEIMA
 function triggerFinalSequence() {
-    // 1. Esconde as velas
-    candlesContainer.style.display = 'none';
+    // A única coisa que precisamos fazer é adicionar a classe à página das velas
+    pageToBurn.classList.add('is-burning');
 
-    // 2. Adiciona a classe que mostra o GIF de fogo no body
-    document.body.classList.add('burning');
-    
-    // 3. Após a animação do fogo terminar (definido no CSS para 3s), mostra o poema
+    // Oculta a página queimada ao final da animação para garantir
+    // que o poema abaixo seja clicável/rolável
     setTimeout(() => {
-        poemContainer.classList.remove('hidden');
-        poemContainer.style.display = 'block';
-    }, 2500); // Este tempo deve ser coordenado com as animações CSS
+        pageToBurn.style.display = 'none';
+    }, 4000); // Duração da animação 'burn-away'
 }
